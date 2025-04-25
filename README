@@ -1,0 +1,65 @@
+H*LAND
+
+Python implementation of the H*land Generalized Prisoner's Dilemma computational model introduced in Artificial Morality (1992) by Danielson.
+
+Requirements:
+Python 3
+
+Usage:
+python hland.py
+
+Makefile Options:
+make clean
+    Clean up working files and logs created by the software.
+    Note: This will remove any JSON files created by the other make options.
+
+make data
+    Run a tournament using the config.json file.
+
+make setup
+    Change preconfigured settings for the system Python alias.
+    Note: Changed settings may alter Makefile and configuration file in-place.
+
+JSON Configuration File Options:
+The simulation provides a default set of options in a dictionary in the hland.py file.
+A JSON configuration file can be passed to the simulation, overwriting the default configuration, with the --conf option.
+
+logfile: path
+    Set the path of the log file.
+    Default: null
+
+logfileFormat: string
+    Set the file format for the log file.
+    Default: "json"
+
+payoutMatrix: [[int, int], [int, int], [int, int], [int, int]]
+    Set the payout matrix for cooperation and defection for each player.
+    Default: [[2, 2], [0, 5], [5, 0], [1, 1]]
+    Note: The first index represents both players cooperating.
+    Note: The second index represents player 1 cooperating and player 2 defecting.
+    Note: The third index represents player 1 defecting and player 2 cooperating.
+    Note: The fourth index represents both players defecting.
+
+profileMode: bool
+    Set whether performance profiling mode is enabled.
+    Default: false
+
+seed: int
+    Set the seed value for the random number generator.
+    Note: Value of -1 causes simulation to generate a random seed.
+    Note: Reusing a seed ensures deterministic simulation outcomes.
+    Default: -1
+
+startingPlayers: int
+    Set the number of players in the Prisoner's Dilemma tournament.
+    Default: 2
+
+strategies: [string, ...]
+    Set the set of strategies present in the tournament.
+    Options: "bentham", "grim", "unconditionalCooperator", "unconditionalDefector", "titForTat"
+    Default: null
+
+turnsPerGame: [int, int]
+    Set the number of turns per game.
+    Default: [1, 1]
+    Note: Any value above 1 will present an Iterated Prisoner's Dilemma.
