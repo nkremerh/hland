@@ -23,6 +23,10 @@ class Hland:
         self.log = open(configuration["logfile"], 'a') if configuration["logfile"] != None else None
         self.logFormat = configuration["logfileFormat"]
 
+        self.scores = {}
+        self.winner = None
+        self.winnerScore = None
+
     def configurePlayers(self):
         players = []
         numPlayers = self.configuration["startingPlayers"]
@@ -83,6 +87,7 @@ class Hland:
         for game in self.games:
             self.playGame(game)
             self.updateRuntimeStats()
+        print(self)
 
     def endLog(self):
         if self.log == None:
@@ -123,6 +128,7 @@ class Hland:
         game.setupNewGame()
         for t in range(game.turns + 1):
             game.doTurn()
+        game.endGame()
         print(game)
 
     def randomizePlayerConfigurations(self, numPlayers):
@@ -168,6 +174,15 @@ class Hland:
         runtimeStats = {"meanTurnsPerGame": 0, "gamesPlayed": 0, "bestStrategy": None, "bestStrategyScore": 0}
         for key in runtimeStats.keys():
             self.runtimeStats[key] = runtimeStats[key]
+        strategies = {}
+        for player in self.players:
+            if player.strategyName not in strategies:
+                strategies[player.strategyName] = player.tournamentScore
+            else:
+                strategies[player.strategyName] += player.tournamentScore
+        self.winner = max(strategies, key=strategies.get)
+        self.winnerScore = strategies[self.winner]
+        self.scores = strategies
 
     def writeToLog(self):
         if self.log == None:
@@ -185,7 +200,7 @@ class Hland:
         self.log.write(logString)
 
     def __str__(self):
-        string = f"{str(self.environment)}Seed: {self.seed}\nTimestep: {self.timestep}\nLiving Players: {len(self.players)}"
+        string = f"Tournament Seed: {self.seed}\nWinner: {self.winner} ({self.winnerScore})\nPlayers: {self.scores}"
         return string
 
 def parseConfiguration(configFile, configuration):
@@ -248,7 +263,7 @@ if __name__ == "__main__":
     # Set default values for simulation configuration
     configuration = {"logfile": None,
                      "logfileFormat": "json",
-                     "payoutMatrix": [(2, 2), (0, 5), (5, 0), (1, 1)],
+                     "payoutMatrix": [(4, 4), (1, 5), (5, 1), (2, 2)],
                      "profileMode": False,
                      "seed": -1,
                      "strategies": None,

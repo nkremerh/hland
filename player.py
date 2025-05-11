@@ -9,6 +9,7 @@ class Player:
 
         self.history = []
         self.strategyName = "Hobbes, Hume, or Hyde"
+        self.tournamentScore = 0
 
     def addMoveToHistory(self, move):
         self.history.append(move)
@@ -42,4 +43,4 @@ class Player:
         self.history = []
 
     def __str__(self):
-        return f"{self.ID}"
+        return f"{self.strategyName}-{self.ID}"

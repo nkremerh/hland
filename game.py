@@ -34,14 +34,18 @@ class Game():
                 self.tie = True
                 self.winnerScore = self.player1Score
 
+    def endGame(self):
+        self.player1.tournamentScore += self.player1Score
+        self.player2.tournamentScore += self.player2Score
+
     def setupNewGame(self):
         self.player1.setupNewGame()
         self.player2.setupNewGame()
 
     def __str__(self):
-        string = f"{self.player1.strategyName} ({self.player1Score})/{self.player2.strategyName} ({self.player2Score})\n"
+        string = f"{self.player1} ({self.player1Score})/{self.player2} ({self.player2Score})\n"
         if self.tie == True:
-            string += f"Winner: TIE {self.player1.strategyName}/{self.player2.strategyName} -> {self.winnerScore}"
+            string += f"Winner: TIE {self.player1}/{self.player2} -> {self.winnerScore}"
         else:
-            string += f"Winner: {self.winner.strategyName} -> {self.winnerScore}"
+            string += f"Winner: {self.winner} -> {self.winnerScore}"
         return string
