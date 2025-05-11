@@ -14,11 +14,6 @@ class Player:
     def addMoveToHistory(self, move):
         self.history.append(move)
 
-    def doMove(self, other):
-        move = self.findBestMove(other)
-        self.addMoveToHistory(move)
-        return move
-
     def findBestMove(self, other):
         move = random.randint(0, 2) if len(self.history) > 0 else random.randint(0, 1)
         if move == 0:

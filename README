@@ -56,7 +56,7 @@ startingPlayers: int
 
 strategies: [string, ...]
     Set the set of strategies present in the tournament.
-    Options: "bentham", "grim", "unconditionalCooperator", "unconditionalDefector", "titForTat"
+    Options: "bentham", "grim", "unconditionalCooperator", "unconditionalDefector", "suspiciousTitForTat", "titForTat"
     Default: null
 
 turnsPerGame: [int, int]

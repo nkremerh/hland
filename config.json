@@ -1,10 +1,10 @@
 {
     "hlandOptions": {
         "__README__": "Default values for H*land simulation provided here. Details can be found in the README.",
-        "payoutMatrix": [[4, 4], [1, 5], [5, 1], [2, 2]],
+        "payoutMatrix": [[4, 4], [1, 6], [6, 1], [2, 2]],
         "seed": -1,
-        "startingPlayers": 5,
-        "strategies": ["grim", "random", "unconditionalCooperator", "unconditionalDefector", "titForTat"],
+        "startingPlayers": 7,
+        "strategies": ["default", "grim", "random", "unconditionalCooperator", "unconditionalDefector", "suspiciousTitForTat", "titForTat"],
         "turnsPerGame": [100, 100]
     }
 }

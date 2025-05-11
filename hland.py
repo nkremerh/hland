@@ -42,6 +42,8 @@ class Hland:
                 a = strategy.Grim(playerID, playerConfiguration, self)
             elif "random" in playerConfiguration["strategy"]:
                 a = strategy.Random(playerID, playerConfiguration, self)
+            elif "suspiciousTitForTat" in playerConfiguration["strategy"]:
+                a = strategy.SuspiciousTitForTat(playerID, playerConfiguration, self)
             elif "titForTat" in playerConfiguration["strategy"]:
                 a = strategy.TitForTat(playerID, playerConfiguration, self)
             elif "trigger" in playerConfiguration["strategy"]:
@@ -263,7 +265,7 @@ if __name__ == "__main__":
     # Set default values for simulation configuration
     configuration = {"logfile": None,
                      "logfileFormat": "json",
-                     "payoutMatrix": [(4, 4), (1, 5), (5, 1), (2, 2)],
+                     "payoutMatrix": [(4, 4), (1, 6), (6, 1), (2, 2)],
                      "profileMode": False,
                      "seed": -1,
                      "strategies": None,

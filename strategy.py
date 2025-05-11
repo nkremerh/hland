@@ -21,11 +21,9 @@ class Grim(player.Player):
         if len(self.history) == 0:
             return "cooperate"
         elif self.betrayed == False:
+            otherMove = self.history[-1].player1Move if self.history[-1].player1 == other else self.history[-1].player2Move
             betrayalCheck = other.history[-1]
-            if len(other.history) > len(self.history):
-                # Other player went first this turn
-                betrayalCheck = other.history[-2]
-            if betrayalCheck == "defect":
+            if otherMove == "defect":
                 self.betrayed = True
                 return "defect"
             return "cooperate"
@@ -48,6 +46,18 @@ class Random(player.Player):
         else:
             return "defect"
 
+class SuspiciousTitForTat(player.Player):
+    def __init__(self, playerID, configuration, hland):
+        super().__init__(playerID, configuration, hland)
+        self.strategyName = "Suspicious Tit for Tat"
+
+    def findBestMove(self, other):
+        if len(self.history) == 0:
+            return "defect"
+        else:
+            otherMove = self.history[-1].player1Move if self.history[-1].player1 == other else self.history[-1].player2Move
+            return otherMove
+
 class TitForTat(player.Player):
     def __init__(self, playerID, configuration, hland):
         super().__init__(playerID, configuration, hland)
@@ -57,10 +67,8 @@ class TitForTat(player.Player):
         if len(self.history) == 0:
             return "cooperate"
         else:
-            if len(other.history) > len(self.history):
-                # Other player went first this turn
-                return other.history[-2]
-            return other.history[-1]
+            otherMove = self.history[-1].player1Move if self.history[-1].player1 == other else self.history[-1].player2Move
+            return otherMove
 
 class Trigger(Grim):
     def __init__(self, playerID, configuration, hland):
