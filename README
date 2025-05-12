@@ -34,7 +34,7 @@ logfileFormat: string
 
 payoutMatrix: [[int, int], [int, int], [int, int], [int, int]]
     Set the payout matrix for cooperation and defection for each player.
-    Default: [[4, 4], [1, 5], [5, 1], [2, 2]]
+    Default: [[4, 4], [1, 6], [6, 1], [2, 2]]
     Note: The first index represents both players cooperating.
     Note: The second index represents player 1 cooperating and player 2 defecting.
     Note: The third index represents player 1 defecting and player 2 cooperating.
