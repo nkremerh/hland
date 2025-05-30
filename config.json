@@ -1,7 +1,9 @@
 {
     "hlandOptions": {
         "__README__": "Default values for H*land simulation provided here. Details can be found in the README.",
+        "debugMode": false,
         "payoutMatrix": [[4, 4], [1, 6], [6, 1], [2, 2]],
+        "profileMode": false,
         "seed": -1,
         "startingPlayers": 7,
         "strategies": ["default", "grim", "random", "unconditionalCooperator", "unconditionalDefector", "suspiciousTitForTat", "titForTat"],

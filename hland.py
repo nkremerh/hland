@@ -13,16 +13,16 @@ import sys
 class Hland:
     def __init__(self, configuration):
         self.configuration = configuration
-        self.nextPlayerID = 0
-        self.seed = configuration["seed"]
+        self.debug = configuration["debugMode"]
+        self.log = open(configuration["logfile"], 'a') if configuration["logfile"] != None else None
+        self.logFormat = configuration["logfileFormat"]
         self.payoutMatrix = configuration["payoutMatrix"]
+        self.seed = configuration["seed"]
 
         self.players = self.configurePlayers()
         self.games = self.configureGames()
-        self.runtimeStats = {"meanTurnsPerGame": 0, "gamesPlayed": 0, "bestStrategy": None, "bestStrategyScore": 0}
-        self.log = open(configuration["logfile"], 'a') if configuration["logfile"] != None else None
-        self.logFormat = configuration["logfileFormat"]
 
+        self.runtimeStats = {"meanTurnsPerGame": 0, "gamesPlayed": 0, "bestStrategy": None, "bestStrategyScore": 0}
         self.scores = {}
         self.winner = None
         self.winnerScore = None
@@ -31,9 +31,9 @@ class Hland:
         players = []
         numPlayers = self.configuration["startingPlayers"]
         playerConfigurations = self.randomizePlayerConfigurations(numPlayers)
+        playerID = 0
         for i in range(numPlayers):
             playerConfiguration = playerConfigurations[i]
-            playerID = self.generatePlayerID()
             a = player.Player(playerID, playerConfiguration, self)
             # If using a different decision model, replace new player with instance of child class
             if "bentham" in playerConfiguration["strategy"]:
@@ -53,6 +53,7 @@ class Hland:
             elif "unconditionalDefector" in playerConfiguration["strategy"]:
                 a = strategy.UnconditionalDefector(playerID, playerConfiguration, self)
             players.append(a)
+            playerID += 1
         return players
 
     def configureGames(self):
@@ -111,11 +112,6 @@ class Hland:
     def endSimulation(self):
         exit(0)
 
-    def generatePlayerID(self):
-        playerID = self.nextPlayerID
-        self.nextPlayerID += 1
-        return playerID
-
     def getPayout(self, player1Move, player2Move):
         if player1Move == "cooperate" and player2Move == "cooperate":
             return self.payoutMatrix[0]
@@ -131,7 +127,8 @@ class Hland:
         for t in range(game.turns + 1):
             game.doTurn()
         game.endGame()
-        print(game)
+        if self.debug:
+            print(game)
 
     def randomizePlayerConfigurations(self, numPlayers):
         configs = self.configuration
@@ -202,7 +199,10 @@ class Hland:
         self.log.write(logString)
 
     def __str__(self):
-        string = f"Tournament Seed: {self.seed}\nWinner: {self.winner} ({self.winnerScore})\nPlayers: {self.scores}"
+        string = f"Tournament {self.seed}"
+        sortedPlayers = {player: score for player, score in sorted(self.scores.items(), key=lambda item: item[1], reverse=True)}
+        for player in sortedPlayers:
+            string += f"\n{player:>25} : {sortedPlayers[player]:<15,}"
         return string
 
 def parseConfiguration(configFile, configuration):
@@ -253,7 +253,7 @@ def verifyConfiguration(configuration):
                 if configValue[i] < 0:
                     configValue[i] = 0
                     negativeFlag += 1
-    if negativeFlag > 0:
+    if negativeFlag > 0 and configuration["debugMode"]:
         print(f"Detected negative values provided for {negativeFlag} option(s). Setting these values to zero.")
     if configuration["logfile"] == "":
         configuration["logfile"] = None
@@ -263,7 +263,8 @@ def verifyConfiguration(configuration):
 
 if __name__ == "__main__":
     # Set default values for simulation configuration
-    configuration = {"logfile": None,
+    configuration = {"debugMode": False,
+                     "logfile": None,
                      "logfileFormat": "json",
                      "payoutMatrix": [(4, 4), (1, 6), (6, 1), (2, 2)],
                      "profileMode": False,

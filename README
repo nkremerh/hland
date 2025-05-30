@@ -24,6 +24,10 @@ JSON Configuration File Options:
 The simulation provides a default set of options in a dictionary in the hland.py file.
 A JSON configuration file can be passed to the simulation, overwriting the default configuration, with the --conf option.
 
+debugMode: bool
+    Set whether to print out debug messages.
+    Default: false
+
 logfile: path
     Set the path of the log file.
     Default: null
