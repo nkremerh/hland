@@ -87,7 +87,8 @@ class Hland:
     def doTournament(self):
         if self.games == None:
             self.games = self.configureGames()
-        for game in self.games:
+        for i in range(len(self.games)):
+            game = self.games.pop()
             self.playGame(game)
             self.updateRuntimeStats()
         print(self)
