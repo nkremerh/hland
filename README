@@ -60,10 +60,10 @@ startingPlayers: int
 
 strategies: [string, ...]
     Set the set of strategies present in the tournament.
-    Options: "bentham", "grim", "unconditionalCooperator", "unconditionalDefector", "suspiciousTitForTat", "titForTat"
-    Default: null
+    Options: "bentham", "default, "grim", "suspiciousTitForTat", "titForTat", "titForTwoTats", "unconditionalCooperator", "unconditionalDefector"
+    Default: ["default"]
 
 turnsPerGame: [int, int]
     Set the number of turns per game.
-    Default: [1, 1]
+    Default: [10, 10]
     Note: Any value above 1 will present an Iterated Prisoner's Dilemma.

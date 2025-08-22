@@ -46,6 +46,8 @@ class Hland:
                 a = strategy.SuspiciousTitForTat(playerID, playerConfiguration, self)
             elif "titForTat" in playerConfiguration["strategy"]:
                 a = strategy.TitForTat(playerID, playerConfiguration, self)
+            elif "titForTwoTats" in playerConfiguration["strategy"]:
+                a = strategy.TitForTwoTats(playerID, playerConfiguration, self)
             elif "trigger" in playerConfiguration["strategy"]:
                 a = strategy.Trigger(playerID, playerConfiguration, self)
             elif "unconditionalCooperator" in playerConfiguration["strategy"]:
@@ -270,9 +272,9 @@ if __name__ == "__main__":
                      "payoutMatrix": [(4, 4), (1, 6), (6, 1), (2, 2)],
                      "profileMode": False,
                      "seed": -1,
-                     "strategies": None,
+                     "strategies": ["default"],
                      "startingPlayers": 2,
-                     "turnsPerGame": [1, 1]
+                     "turnsPerGame": [10, 10]
                      }
     configuration = parseOptions(configuration)
     configuration = verifyConfiguration(configuration)

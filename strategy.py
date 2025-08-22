@@ -27,8 +27,7 @@ class Grim(player.Player):
                 self.betrayed = True
                 return "defect"
             return "cooperate"
-        else:
-            return "defect"
+        return "defect"
 
     def setupNewGame(self):
         self.betrayed = False
@@ -43,8 +42,7 @@ class Random(player.Player):
         choice = random.randint(0, 1)
         if choice == 0:
             return "cooperate"
-        else:
-            return "defect"
+        return "defect"
 
 class SuspiciousTitForTat(player.Player):
     def __init__(self, playerID, configuration, hland):
@@ -54,9 +52,8 @@ class SuspiciousTitForTat(player.Player):
     def findBestMove(self, other):
         if len(self.history) == 0:
             return "defect"
-        else:
-            otherMove = self.history[-1].player1Move if self.history[-1].player1 == other else self.history[-1].player2Move
-            return otherMove
+        otherMove = self.history[-1].player1Move if self.history[-1].player1 == other else self.history[-1].player2Move
+        return otherMove
 
 class TitForTat(player.Player):
     def __init__(self, playerID, configuration, hland):
@@ -66,9 +63,24 @@ class TitForTat(player.Player):
     def findBestMove(self, other):
         if len(self.history) == 0:
             return "cooperate"
-        else:
-            otherMove = self.history[-1].player1Move if self.history[-1].player1 == other else self.history[-1].player2Move
-            return otherMove
+        otherMove = self.history[-1].player1Move if self.history[-1].player1 == other else self.history[-1].player2Move
+        return otherMove
+
+class TitForTwoTats(player.Player):
+    def __init__(self, playerID, configuration, hland):
+        super().__init__(playerID, configuration, hland)
+        self.strategyName = "Tit for Two Tats"
+        self.tats = 0
+
+    def findBestMove(self, other):
+        if len(self.history) == 0:
+            return "cooperate"
+        otherMove = self.history[-1].player1Move if self.history[-1].player1 == other else self.history[-1].player2Move
+        if otherMove == "defect":
+            self.tats += 1
+        if self.tats % 2 == 0 and self.tats > 0:
+            return "defect"
+        return "cooperate"
 
 class Trigger(Grim):
     def __init__(self, playerID, configuration, hland):
